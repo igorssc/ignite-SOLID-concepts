@@ -1,0 +1,382 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SOLID Concepts Documentation",
+    "description": "This is a documentation from SOLIDS Concepts project",
+    "version": "1.0.0",
+    "contact": {
+      "email": "igorsantoscosta@email.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Create a user",
+        "description": "Create a new user",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "body",
+            "description": "username",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Igor S"
+            }
+          },
+          {
+            "name": "email",
+            "in": "body",
+            "description": "user email",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "igors@email.com"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Igor S",
+                  "email": "igors@email.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "admmin": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "id": "6af298ae-407b-4c03-8f69-d9e1ba521cad",
+                  "name": "Igor Santos da Costa",
+                  "email": "igor@email.com.br",
+                  "admin": false,
+                  "updated_at": "2021-03-20T19:47:58.703Z",
+                  "created_at": "2021-03-20T19:47:58.703Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "error": "User already exists"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Users"],
+        "summary": "List all users",
+        "description": "List all users - administrators only",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "header",
+            "description": "Administrator user id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "9e8a3250-bba0-4078-90fd-9cf5b5ee8205"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Users successfully listed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "admmin": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": [
+                  {
+                    "id": "6af298ae-407b-4c03-8f69-d9e1ba521cad",
+                    "name": "Igor S",
+                    "email": "igor@email.com.br",
+                    "admin": true,
+                    "updated_at": "2021-03-20T19:47:58.703Z",
+                    "created_at": "2021-03-20T19:47:58.703Z"
+                  },
+                  {
+                    "id": "4jf9s6gs-5gs7-6fj7-6dj8-d95gj8525s7d",
+                    "name": "Stephany D",
+                    "email": "stephanyd@email.com.br",
+                    "admin": false,
+                    "updated_at": "2021-03-10T09:43:51.703Z",
+                    "created_at": "2021-03-10T09:43:51.703Z"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "The user is not an adminstrator",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "error": "The user is not an adminstrator"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The user does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "error": "The user does not exist"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/:id_user": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Show user",
+        "description": "Show user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "param",
+            "description": "user id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "9e8a3250-bba0-4078-90fd-9cf5b5ee8205"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User shwon successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "admmin": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": [
+                  {
+                    "id": "6af298ae-407b-4c03-8f69-d9e1ba521cad",
+                    "name": "Igor S",
+                    "email": "igor@email.com.br",
+                    "admin": false,
+                    "updated_at": "2021-03-20T19:47:58.703Z",
+                    "created_at": "2021-03-20T19:47:58.703Z"
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "The user does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "error": "The user does not exist"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/:id_user/admin": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Become administrator user",
+        "description": "Become administrator user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "param",
+            "description": "user id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "9e8a3250-bba0-4078-90fd-9cf5b5ee8205"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User successfully made administrator",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "admmin": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": [
+                  {
+                    "id": "6af298ae-407b-4c03-8f69-d9e1ba521cad",
+                    "name": "Igor S",
+                    "email": "igor@email.com.br",
+                    "admin": true,
+                    "updated_at": "2021-03-20T19:47:58.703Z",
+                    "created_at": "2021-03-20T19:47:58.703Z"
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "The user does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "error": "The user does not exist"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

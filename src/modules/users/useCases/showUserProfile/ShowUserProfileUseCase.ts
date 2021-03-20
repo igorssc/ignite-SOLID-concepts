@@ -13,7 +13,7 @@ class ShowUserProfileUseCase {
   execute({ user_id }: IRequest): User {
     const user = this.usersRepository.findById(user_id);
 
-    if (!user) throw new HttpException("User not found", 404);
+    if (!user) throw new HttpException("The user does not exist", 404);
 
     return user;
   }
